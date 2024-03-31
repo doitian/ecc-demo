@@ -120,11 +120,13 @@ class GFABC(FiniteField):
             cls.order = cls.field_modulus
 
 
-# Integers modulus p
 def GF(p, field_modulus=None):
+    # Integers modulus GF(p)
     if field_modulus is None:
         return type(f"GF({p})", (GFABC,), dict(field_modulus=p))
 
+    # Extension field GF(p^k).
+    # field_modulus is the irreducible polynomial at degree k over GF(p)
     k = field_modulus.degree()
     return type(
         f"GF({p}**{k})", (GFABC,), dict(field_modulus=field_modulus, order=p**k)
