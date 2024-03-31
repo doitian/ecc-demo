@@ -55,7 +55,7 @@ def ref_divmod(a, b):
     )
 
 
-class FieldTest(TestCase):
+class PolyTest(TestCase):
     def test_add(self):
         a = IntPoly(1, 0, 2)
         b = IntPoly(1, 2, 3, 4)

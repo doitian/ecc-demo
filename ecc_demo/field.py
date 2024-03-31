@@ -100,7 +100,11 @@ class FiniteField(Field):
             raise TypeError(
                 f"Multiplicative inverse does not exist for '{repr(other)}'"
             )
+
         return self.__class__(self.n * x)
+
+    def __divmod__(self, other):
+        return self / other, self.__class__(0)
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.n})"
@@ -112,9 +116,16 @@ class FiniteField(Field):
 class GFABC(FiniteField):
     def __init_subclass__(cls):
         super().__init_subclass__()
-        cls.order = cls.field_modulus
+        if not hasattr(cls, "order"):
+            cls.order = cls.field_modulus
 
 
 # Integers modulus p
-def GF(p):
-    return type(f"GF({p})", (GFABC,), dict(field_modulus=p))
+def GF(p, field_modulus=None):
+    if field_modulus is None:
+        return type(f"GF({p})", (GFABC,), dict(field_modulus=p))
+
+    k = field_modulus.degree()
+    return type(
+        f"GF({p}**{k})", (GFABC,), dict(field_modulus=field_modulus, order=p**k)
+    )

@@ -62,11 +62,20 @@ class PolyABC(ABC):
     def __floordiv__(self, other):
         return divmod(self, other)[0]
 
+    def __truediv__(self, other):
+        q, r = divmod(self, other)
+        if len(r.n) != 1 or r.n[0] != self.domain(0):
+            raise ValueError("Division is not exact")
+        return q
+
     def __mod__(self, other):
         return divmod(self, other)[1]
 
     # https://en.wikipedia.org/wiki/Polynomial_greatest_common_divisor#Euclidean_division
     def __divmod__(self, other):
+        # if len(self.n) < len(other.n):
+        #     return self.__class__(0), self
+
         zero = self.domain(0)
         b = other.n
         d = len(b)
@@ -80,11 +89,12 @@ class PolyABC(ABC):
                 break
 
             q[s_exp] = s_coeff
-            for i in range(d - 1):
+            for i in range(d):
                 # degree of b has been raised by s_exp
                 r[i + s_exp] -= s_coeff * b[i]
 
-            r.pop()
+            if len(r) > 1:
+                r.pop()
             s_exp -= 1
 
         while len(q) > 1 and q[-1] == zero:
