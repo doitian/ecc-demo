@@ -16,9 +16,9 @@ def egcd(a, b):
     if not isinstance(b, PolyABC):
         return b, x0, y0
 
-    # Tweak for poly, normalize the constant polynomial to 1
-    if b.degree() == 0 and b != one and b != zero:
-        x0 = x0.__class__(*(e / b.n[0] for e in x0.n))
-        y0 = y0.__class__(*(e / b.n[0] for e in y0.n))
-        return one, x0, y0
+    # Normalize to monic polynomial
+    if b.n[-1] != one.n[0] and b.n[-1] != zero.n[0]:
+        x0 = x0.__class__(*(e / b.n[-1] for e in x0.n))
+        y0 = y0.__class__(*(e / b.n[-1] for e in y0.n))
+        b = b.__class__(*(e / b.n[-1] for e in b.n))
     return b, x0, y0
