@@ -1,6 +1,6 @@
 from unittest import TestCase
 import random
-from .ecc import Secp256k1BaseField, Secp256k1
+from .ecc import Secp256k1
 from py_ecc.secp256k1 import secp256k1
 
 
