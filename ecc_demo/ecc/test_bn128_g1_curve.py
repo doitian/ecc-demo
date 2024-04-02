@@ -18,3 +18,8 @@ class Secp256k1Test(TestCase):
             expected = bn128.add(a, b)
             self.assertEqual(actual.x.n, expected[0].n)
             self.assertEqual(actual.y.n, expected[1].n)
+
+            actual = Bn128G1Curve(a[0].n, a[1].n) + Bn128G1Curve(a[0].n, a[1].n)
+            expected = bn128.add(a, a)
+            self.assertEqual(actual.x.n, expected[0].n)
+            self.assertEqual(actual.y.n, expected[1].n)

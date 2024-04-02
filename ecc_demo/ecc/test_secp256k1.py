@@ -18,3 +18,8 @@ class Secp256k1Test(TestCase):
             expected = secp256k1.add(a, b)
             self.assertEqual(actual.x, expected[0])
             self.assertEqual(actual.y, expected[1])
+
+            actual = Secp256k1(*a) + Secp256k1(*a)
+            expected = secp256k1.add(a, a)
+            self.assertEqual(actual.x, expected[0])
+            self.assertEqual(actual.y, expected[1])
