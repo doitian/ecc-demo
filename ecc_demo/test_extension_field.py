@@ -31,7 +31,10 @@ def random_coeffs():
 
 
 def get_coeffs(p):
-    return list(e.n for e in reversed(p.n.n))
+    coeffs = list(e.n for e in reversed(p.n.n))
+    if coeffs != [0]:
+        return coeffs
+    return []
 
 
 def ref_add(a, b):
@@ -60,6 +63,10 @@ class ExtensionFieldTest(TestCase):
         a = GF53P6(GF53Poly(30, 6, 17, 43, 5, 3))
         b = GF53P6(GF53Poly(26, 8, 52, 42, 43))
         self.assertEqual(get_coeffs(a * b), ref_mul(a, b))
+
+    def test_sub_self(self):
+        a = GF53P6(GF53Poly(30, 6, 17, 43, 5, 3))
+        self.assertEqual(get_coeffs(a - a), ref_sub(a, a))
 
     def test_div(self):
         a = GF53P6(GF53Poly(52))
