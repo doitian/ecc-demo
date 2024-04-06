@@ -11,7 +11,7 @@ def randpoint():
 
 
 class Secp256k1Test(TestCase):
-    def test_additoin(self):
+    def test_addition(self):
         g1 = Bn128G1Curve(bn128.G1[0].n, bn128.G1[1].n, bn128.G1[2].n)
         actual = g1 + g1
         expected = bn128.add(bn128.G1, bn128.G1)
